@@ -1,37 +1,21 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import type { Product } from "@/types";
 
-const topProducts = [
-  {
-    name: "LED Vanity Mirror with Lights",
-    orders: 34,
-    earnings: "$487.20",
-    commission: "18%",
-  },
-  {
-    name: "Portable Blender Cup",
-    orders: 28,
-    earnings: "$392.50",
-    commission: "22%",
-  },
-  {
-    name: "Cloud Slides Slippers",
-    orders: 25,
-    earnings: "$312.75",
-    commission: "15%",
-  },
-];
+function formatCurrency(n: number): string {
+  return `$${n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
 
-export function TopProducts() {
+export function TopProducts({ products }: { products: Product[] }) {
   return (
     <Card>
       <CardHeader>
         <CardTitle className="text-sm font-medium">Top Products</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-4">
-        {topProducts.map((product, index) => (
+        {products.map((product, index) => (
           <div
-            key={product.name}
+            key={product.id}
             className="flex items-center justify-between gap-4"
           >
             <div className="flex items-center gap-3">
@@ -43,14 +27,16 @@ export function TopProducts() {
                   {product.name}
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  {product.orders} orders
+                  {product.totalOrders} orders
                 </p>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-sm font-semibold">{product.earnings}</span>
+              <span className="text-sm font-semibold">
+                {formatCurrency(product.totalEarnings)}
+              </span>
               <Badge variant="secondary" className="text-xs">
-                {product.commission}
+                {Math.round(product.commissionRate * 100)}%
               </Badge>
             </div>
           </div>
