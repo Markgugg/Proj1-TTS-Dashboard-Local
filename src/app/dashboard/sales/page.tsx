@@ -1,16 +1,17 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { SalesTable } from "@/components/dashboard/sales-table";
+import type { OrderRow } from "@/components/dashboard/sales-table";
+import { getOrders } from "@/lib/data";
 
 export default function SalesPage() {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Sales Breakdown</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p className="text-sm text-muted-foreground">
-          Sales table with filtering and sorting coming in Phase 3.
-        </p>
-      </CardContent>
-    </Card>
-  );
+  const orders: OrderRow[] = getOrders().map((o) => ({
+    id: o.id,
+    productName: o.productName,
+    orderDate: o.orderDate.toISOString(),
+    saleAmount: o.saleAmount,
+    commissionEarned: o.commissionEarned,
+    commissionRate: o.commissionRate,
+    status: o.status,
+  }));
+
+  return <SalesTable orders={orders} />;
 }
