@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { signOut } from "next-auth/react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -76,14 +77,27 @@ export function Sidebar() {
       </nav>
 
       <div className="border-t border-border p-3">
-        <div className="flex items-center gap-3 rounded-lg px-3 py-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-xs font-medium">
-            MG
+        <div className="flex items-center justify-between rounded-lg px-3 py-2">
+          <div className="flex items-center gap-3">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-xs font-medium">
+              MG
+            </div>
+            <div className="flex flex-col">
+              <span className="text-sm font-medium">Demo User</span>
+              <span className="text-xs text-muted-foreground">demo@example.com</span>
+            </div>
           </div>
-          <div className="flex flex-col">
-            <span className="text-sm font-medium">Demo User</span>
-            <span className="text-xs text-muted-foreground">demo@tts.app</span>
-          </div>
+          <button
+            onClick={() => signOut({ callbackUrl: "/login" })}
+            title="Sign out"
+            className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+              <polyline points="16 17 21 12 16 7" />
+              <line x1="21" x2="9" y1="12" y2="12" />
+            </svg>
+          </button>
         </div>
       </div>
     </aside>
