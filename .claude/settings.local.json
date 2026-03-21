@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:partner.tiktokshop.com)",
+      "WebSearch"
+    ]
+  }
+}
