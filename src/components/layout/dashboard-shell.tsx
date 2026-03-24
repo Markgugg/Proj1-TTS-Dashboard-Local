@@ -12,12 +12,12 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
       {/* Mobile backdrop */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-20 bg-black/50 md:hidden"
+          className="fixed inset-0 z-20 bg-black/30 md:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
-      {/* Sidebar — hidden on mobile unless open */}
+      {/* Sidebar */}
       <div
         className={[
           "fixed inset-y-0 left-0 z-30 md:relative md:flex",
@@ -29,7 +29,13 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
 
       <div className="flex flex-1 flex-col overflow-hidden">
         <Header onMenuToggle={() => setSidebarOpen(true)} />
-        <main className="flex-1 overflow-y-auto bg-muted/40 p-4 md:p-6">
+        <main
+          className="flex-1 overflow-y-auto p-4 md:p-6"
+          style={{
+            background:
+              "linear-gradient(to bottom, #FFFFFF, #FFFFF0, #F0F8FF, #FFFFF0)",
+          }}
+        >
           {children}
         </main>
       </div>

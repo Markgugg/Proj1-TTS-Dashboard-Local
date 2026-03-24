@@ -3,11 +3,9 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const inputClass =
-  "w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring";
+  "w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black/20 transition-shadow";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -35,21 +33,32 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-muted/40 p-4">
-      <Card className="w-full max-w-sm">
-        <CardHeader className="text-center">
-          <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-foreground text-background text-sm font-bold">
+    <div
+      className="flex min-h-screen flex-col items-center justify-center px-4"
+      style={{
+        background:
+          "linear-gradient(to bottom, #FFFFFF, #FFFFF0, #F0F8FF, #FFFFF0)",
+      }}
+    >
+      <div className="w-full max-w-sm">
+        {/* Logo */}
+        <div className="mb-8 flex flex-col items-center gap-3 text-center">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-black text-sm font-bold text-white">
             T
           </div>
-          <CardTitle className="text-xl">Sign in</CardTitle>
-          <p className="text-sm text-muted-foreground">
-            TTS Dashboard — TikTok Shop analytics
-          </p>
-        </CardHeader>
-        <CardContent>
+          <div>
+            <h1 className="text-xl font-bold text-gray-900">TTS Dashboard</h1>
+            <p className="text-sm text-gray-500">TikTok Shop analytics</p>
+          </div>
+        </div>
+
+        {/* Card */}
+        <div className="rounded-2xl border border-gray-100 bg-white p-8 shadow-lg shadow-gray-100/60">
+          <h2 className="mb-6 text-lg font-semibold text-gray-900">Sign in</h2>
+
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="email" className="text-sm font-medium">
+              <label htmlFor="email" className="text-sm font-medium text-gray-700">
                 Email
               </label>
               <input
@@ -62,8 +71,9 @@ export default function LoginPage() {
                 className={inputClass}
               />
             </div>
+
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="password" className="text-sm font-medium">
+              <label htmlFor="password" className="text-sm font-medium text-gray-700">
                 Password
               </label>
               <input
@@ -78,21 +88,25 @@ export default function LoginPage() {
             </div>
 
             {error && (
-              <p className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
+              <p className="rounded-xl bg-red-50 px-4 py-2.5 text-sm text-red-600">
                 {error}
               </p>
             )}
 
-            <Button type="submit" className="w-full" disabled={loading}>
+            <button
+              type="submit"
+              disabled={loading}
+              className="mt-1 w-full rounded-full bg-black py-2.5 text-sm font-semibold text-white transition-colors hover:bg-gray-800 disabled:opacity-60"
+            >
               {loading ? "Signing in…" : "Sign in"}
-            </Button>
+            </button>
 
-            <p className="text-center text-xs text-muted-foreground">
-              Demo account: demo@example.com / demo1234
+            <p className="text-center text-xs text-gray-400">
+              Demo: demo@example.com / demo1234
             </p>
           </form>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }
