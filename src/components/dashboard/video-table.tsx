@@ -116,6 +116,7 @@ export function VideoTable({ videos }: { videos: VideoRow[] }) {
             No videos in the selected time range.
           </p>
         ) : (
+          <div className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
@@ -162,6 +163,7 @@ export function VideoTable({ videos }: { videos: VideoRow[] }) {
               })}
             </TableBody>
           </Table>
+          </div>
         )}
       </CardContent>
     </Card>

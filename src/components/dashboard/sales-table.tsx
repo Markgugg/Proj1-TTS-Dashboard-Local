@@ -141,6 +141,7 @@ export function SalesTable({ orders }: { orders: OrderRow[] }) {
             No orders match the selected filters.
           </p>
         ) : (
+          <div className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
@@ -173,6 +174,7 @@ export function SalesTable({ orders }: { orders: OrderRow[] }) {
               ))}
             </TableBody>
           </Table>
+          </div>
         )}
       </CardContent>
     </Card>
