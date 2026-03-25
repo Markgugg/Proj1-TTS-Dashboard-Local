@@ -265,13 +265,55 @@ export function LandingPage() {
         </h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {[
-            { icon: "💰", title: "Daily Earnings Tracking", desc: "See exactly how much you earned each day with a 30-day chart. Spot your best-performing days at a glance." },
-            { icon: "🛍️", title: "Sales Breakdown", desc: "Filter every order by date range and status. See sale amounts, commission rates, and payout status in one table." },
-            { icon: "🎬", title: "Video Performance", desc: "Track views, clicks, CTR, and conversions per video. Know exactly which content drives your commissions." },
-            { icon: "📈", title: "Top Products", desc: "See which products generate the most commission so you can focus your content on what actually converts." },
+            {
+              iconBg: "bg-emerald-100",
+              iconColor: "text-emerald-600",
+              icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="12" x2="12" y1="2" y2="22" /><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                </svg>
+              ),
+              title: "Daily Earnings Tracking",
+              desc: "See exactly how much you earned each day with a 30-day chart. Spot your best-performing days at a glance.",
+            },
+            {
+              iconBg: "bg-blue-100",
+              iconColor: "text-blue-600",
+              icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" /><line x1="3" x2="21" y1="6" y2="6" /><path d="M16 10a4 4 0 0 1-8 0" />
+                </svg>
+              ),
+              title: "Sales Breakdown",
+              desc: "Filter every order by date range and status. See sale amounts, commission rates, and payout status in one table.",
+            },
+            {
+              iconBg: "bg-rose-100",
+              iconColor: "text-rose-600",
+              icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="6 3 20 12 6 21 6 3" />
+                </svg>
+              ),
+              title: "Video Performance",
+              desc: "Track views, clicks, CTR, and conversions per video. Know exactly which content drives your commissions.",
+            },
+            {
+              iconBg: "bg-violet-100",
+              iconColor: "text-violet-600",
+              icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" /><polyline points="16 7 22 7 22 13" />
+                </svg>
+              ),
+              title: "Top Products",
+              desc: "See which products generate the most commission so you can focus your content on what actually converts.",
+            },
           ].map((f) => (
             <div key={f.title} className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-              <div className="mb-4 text-3xl">{f.icon}</div>
+              <div className={`mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl ${f.iconBg} ${f.iconColor}`}>
+                {f.icon}
+              </div>
               <h3 className="mb-2 font-semibold text-gray-900">{f.title}</h3>
               <p className="text-sm leading-relaxed text-gray-500">{f.desc}</p>
             </div>

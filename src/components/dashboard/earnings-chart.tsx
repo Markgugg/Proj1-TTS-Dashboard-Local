@@ -13,7 +13,7 @@ import type { DailyEarnings } from "@/types";
 const chartConfig = {
   totalEarnings: {
     label: "Earnings",
-    color: "var(--chart-1)",
+    color: "#6366f1",
   },
 } satisfies ChartConfig;
 
@@ -28,36 +28,43 @@ export function EarningsChart({ data }: { data: DailyEarnings[] }) {
     totalEarnings: d.totalEarnings,
   }));
 
+  const total = data.reduce((s, d) => s + d.totalEarnings, 0);
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-sm font-medium">
-          Earnings — Last 30 Days
-        </CardTitle>
+    <Card className="rounded-2xl border-gray-100 shadow-sm">
+      <CardHeader className="pb-2">
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-sm font-medium text-gray-400 uppercase tracking-wide">
+            Earnings — Last 30 Days
+          </CardTitle>
+          <span className="text-sm font-semibold text-gray-900">
+            ${total.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          </span>
+        </div>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[280px] w-full">
           <AreaChart data={chartData}>
             <defs>
               <linearGradient id="fillEarnings" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="var(--color-totalEarnings)" stopOpacity={0.3} />
-                <stop offset="95%" stopColor="var(--color-totalEarnings)" stopOpacity={0} />
+                <stop offset="5%" stopColor="#6366f1" stopOpacity={0.25} />
+                <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid vertical={false} strokeDasharray="3 3" />
+            <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="#f0f0f0" />
             <XAxis
               dataKey="date"
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tick={{ fontSize: 12 }}
+              tick={{ fontSize: 11, fill: "#9ca3af" }}
               interval="preserveStartEnd"
             />
             <YAxis
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tick={{ fontSize: 12 }}
+              tick={{ fontSize: 11, fill: "#9ca3af" }}
               tickFormatter={(value) => `$${value}`}
             />
             <ChartTooltip
@@ -66,9 +73,11 @@ export function EarningsChart({ data }: { data: DailyEarnings[] }) {
             <Area
               type="monotone"
               dataKey="totalEarnings"
-              stroke="var(--color-totalEarnings)"
-              strokeWidth={2}
+              stroke="#6366f1"
+              strokeWidth={2.5}
               fill="url(#fillEarnings)"
+              dot={false}
+              activeDot={{ r: 5, fill: "#6366f1", stroke: "#fff", strokeWidth: 2 }}
             />
           </AreaChart>
         </ChartContainer>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { Logo } from "@/components/logo";
+import { getDashboardStats, getTopProducts, getVideoPerformance, getOrders } from "@/lib/data";
 
 const navItems = [
   {
@@ -41,6 +42,16 @@ const navItems = [
 
 export function Sidebar({ onClose }: { onClose?: () => void }) {
   const pathname = usePathname();
+  const stats = getDashboardStats();
+  const topProduct = getTopProducts(1)[0];
+  const topVideo = getVideoPerformance()[0];
+
+  // Today's orders
+  const todayStr = new Date().toISOString().split("T")[0];
+  const todayOrders = getOrders().filter(
+    (o) => o.orderDate.toISOString().split("T")[0] === todayStr && o.status !== "cancelled" && o.status !== "refunded"
+  );
+  const todayEarnings = todayOrders.reduce((s, o) => s + o.commissionEarned, 0);
 
   return (
     <aside className="flex h-full w-60 flex-col border-r border-gray-100 bg-white">
@@ -50,7 +61,10 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
       </div>
 
       {/* Nav */}
-      <nav className="flex flex-1 flex-col gap-0.5 p-3">
+      <nav className="flex flex-col gap-0.5 p-3">
+        <p className="mb-1 px-3 text-[10px] font-semibold uppercase tracking-widest text-gray-400">
+          Menu
+        </p>
         {navItems.map((item) => {
           const isActive =
             item.href === "/dashboard"
@@ -75,6 +89,93 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
           );
         })}
       </nav>
+
+      {/* Quick stats */}
+      <div className="mx-3 mt-4 rounded-2xl bg-gray-50 p-4">
+        <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-gray-400">
+          This Month
+        </p>
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-gray-500">Earnings</span>
+            <span className="text-xs font-semibold text-gray-900">
+              ${stats.totalEarnings.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-gray-500">Orders</span>
+            <span className="text-xs font-semibold text-gray-900">{stats.totalOrders}</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-gray-500">Pending</span>
+            <span className="text-xs font-semibold text-amber-600">
+              ${stats.pendingPayout.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </span>
+          </div>
+          {/* Mini earnings bar */}
+          <div className="pt-1">
+            <div className="mb-1 flex items-center justify-between">
+              <span className="text-[10px] text-gray-400">Avg commission</span>
+              <span className="text-[10px] font-medium text-violet-600">{stats.avgCommission}%</span>
+            </div>
+            <div className="h-1.5 w-full rounded-full bg-gray-200">
+              <div
+                className="h-1.5 rounded-full bg-violet-400"
+                style={{ width: `${Math.min(stats.avgCommission * 4, 100)}%` }}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Today's snapshot */}
+      <div className="mx-3 mt-3 rounded-2xl bg-indigo-50 p-4">
+        <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-indigo-400">
+          Today
+        </p>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-indigo-500">Earned</span>
+            <span className="text-xs font-semibold text-indigo-700">
+              ${todayEarnings.toFixed(2)}
+            </span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-indigo-500">Orders</span>
+            <span className="text-xs font-semibold text-indigo-700">{todayOrders.length}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Top product */}
+      <div className="mx-3 mt-3 rounded-2xl bg-emerald-50 p-4">
+        <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-emerald-500">
+          Top Product
+        </p>
+        <p className="text-xs font-semibold text-gray-900 leading-snug">{topProduct?.name}</p>
+        <div className="mt-2 flex items-center justify-between">
+          <span className="text-[10px] text-emerald-600">{topProduct?.totalOrders} orders</span>
+          <span className="text-[10px] font-semibold text-emerald-700">
+            ${topProduct?.totalEarnings.toFixed(2)}
+          </span>
+        </div>
+      </div>
+
+      {/* Top video */}
+      <div className="mx-3 mt-3 rounded-2xl bg-rose-50 p-4">
+        <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-rose-400">
+          Top Video
+        </p>
+        <p className="text-xs font-semibold text-gray-900 leading-snug line-clamp-2">{topVideo?.title}</p>
+        <div className="mt-2 flex items-center justify-between">
+          <span className="text-[10px] text-rose-500">{topVideo?.views.toLocaleString()} views</span>
+          <span className="text-[10px] font-semibold text-rose-600">
+            ${topVideo?.earnings.toFixed(2)}
+          </span>
+        </div>
+      </div>
+
+      <div className="flex-1" />
 
       {/* User */}
       <div className="border-t border-gray-100 p-3">
