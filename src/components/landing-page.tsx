@@ -222,8 +222,50 @@ export function LandingPage() {
         </div>
       </section>
 
+      {/* Brand banner */}
+      <section className="overflow-hidden border-y border-gray-100 bg-white/60 py-8">
+        <p className="mb-5 text-center text-xs font-medium uppercase tracking-widest text-gray-400">
+          Top brands on TikTok Shop
+        </p>
+        <div className="relative">
+          {/* Fade edges */}
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-white to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-white to-transparent" />
+          <div className="animate-scroll-left flex w-max items-center gap-16">
+            {/* Duplicated list for seamless loop */}
+            {[...Array(2)].map((_, setIndex) => (
+              <div key={setIndex} className="flex items-center gap-16">
+                {[
+                  "Maybelline",
+                  "TCL",
+                  "DJI",
+                  "Anker",
+                  "CIDER",
+                  "Kraft",
+                  "Nokia",
+                  "Laifen",
+                  "UGREEN",
+                  "e.l.f.",
+                  "CeraVe",
+                  "NYX",
+                  "BelleMe",
+                  "Halara",
+                ].map((brand) => (
+                  <span
+                    key={`${setIndex}-${brand}`}
+                    className="whitespace-nowrap text-xl font-bold tracking-tight text-gray-300 transition-colors hover:text-gray-500"
+                  >
+                    {brand}
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Features */}
-      <section id="features" className="mx-auto max-w-6xl px-6 pb-24 md:px-10">
+      <section id="features" className="mx-auto max-w-6xl px-6 pb-24 pt-24 md:px-10">
         <h2 className="mb-12 text-center text-3xl font-bold text-gray-900 md:text-4xl">
           What does TTS Dashboard include?
         </h2>
