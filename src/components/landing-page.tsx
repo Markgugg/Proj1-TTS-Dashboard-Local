@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { Logo, LogoIcon } from "@/components/logo";
 
 const inputClass =
   "w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black/20 transition-shadow";
@@ -40,9 +41,7 @@ function SignInModal({ onClose }: { onClose: () => void }) {
         {/* Header */}
         <div className="mb-6 flex items-start justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-black text-xs font-bold text-white">
-              T
-            </div>
+            <LogoIcon size={32} />
             <h2 className="text-lg font-semibold text-gray-900">Sign in</h2>
           </div>
           <button
@@ -124,12 +123,7 @@ export function LandingPage() {
 
       {/* Nav */}
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5 md:px-10">
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-black text-sm font-bold text-white">
-            T
-          </div>
-          <span className="text-sm font-semibold text-gray-900">TTS Dashboard</span>
-        </div>
+        <Logo size={32} />
 
         <div className="hidden items-center gap-8 text-sm font-medium text-gray-500 md:flex">
           <a href="#features" className="transition-colors hover:text-gray-900">Features</a>

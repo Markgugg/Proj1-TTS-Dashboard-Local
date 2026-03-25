@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
+import { Logo } from "@/components/logo";
 
 const navItems = [
   {
@@ -44,11 +45,8 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
   return (
     <aside className="flex h-full w-60 flex-col border-r border-gray-100 bg-white">
       {/* Logo */}
-      <div className="flex h-14 items-center gap-2.5 border-b border-gray-100 px-5">
-        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-black text-xs font-bold text-white">
-          T
-        </div>
-        <span className="text-sm font-semibold text-gray-900">TTS Dashboard</span>
+      <div className="flex h-14 items-center border-b border-gray-100 px-5">
+        <Logo size={28} />
       </div>
 
       {/* Nav */}
