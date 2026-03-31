@@ -177,22 +177,31 @@ export function getMockTopProducts(limit: number = 5): Product[] {
 }
 
 export function getMockVideoPerformance(): VideoPerformance[] {
+  // Compute earnings from actual orders attributed to each video
+  const earningsByVideo = new Map<string, number>();
+  for (const order of allOrders) {
+    if (!order.videoId) continue;
+    if (order.status === "cancelled" || order.status === "refunded") continue;
+    const current = earningsByVideo.get(order.videoId) ?? 0;
+    earningsByVideo.set(order.videoId, +(current + order.commissionEarned).toFixed(2));
+  }
+
   return VIDEO_TITLES.map((title, i) => {
     const views = randomInt(5000, 500000);
     const clickRate = randomBetween(0.02, 0.08);
     const conversionRate = randomBetween(0.05, 0.15);
     const clicks = Math.floor(views * clickRate);
     const conversions = Math.floor(clicks * conversionRate);
-    const avgEarning = randomBetween(3, 12);
+    const videoId = `VID-${String(i + 1).padStart(3, "0")}`;
 
     return {
-      videoId: `VID-${String(i + 1).padStart(3, "0")}`,
+      videoId,
       title,
       thumbnailUrl: `/videos/placeholder.svg`,
       views,
       clicks,
       conversions,
-      earnings: +(conversions * avgEarning).toFixed(2),
+      earnings: earningsByVideo.get(videoId) ?? 0,
       postedDate: daysAgo(randomInt(1, 60)),
     };
   }).sort((a, b) => b.earnings - a.earnings);

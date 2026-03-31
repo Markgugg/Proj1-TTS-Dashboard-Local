@@ -152,15 +152,38 @@ export async function getTopProducts(limit: number = 5): Promise<Product[]> {
 
 export async function getVideoPerformance(): Promise<VideoPerformance[]> {
   const supabase = getSupabaseClient();
-  const { data, error } = await (supabase
-    .from("videos")
-    .select("*")
-    .order("earnings", { ascending: false }) as unknown as Promise<{
+
+  type OrderEarningsRow = Pick<OrderRow, "video_id" | "commission_earned" | "status">;
+
+  const [videosResult, ordersResult] = await Promise.all([
+    supabase.from("videos").select("*") as unknown as Promise<{
       data: VideoRow[] | null;
       error: { message: string } | null;
-    }>);
-  if (error) throw error;
-  return (data ?? []).map(mapVideo);
+    }>,
+    supabase
+      .from("orders")
+      .select("video_id, commission_earned, status")
+      .not("video_id", "is", null) as unknown as Promise<{
+        data: OrderEarningsRow[] | null;
+        error: { message: string } | null;
+      }>,
+  ]);
+
+  if (videosResult.error) throw videosResult.error;
+  if (ordersResult.error) throw ordersResult.error;
+
+  // Compute earnings per video from actual order commissions
+  const earningsByVideo = new Map<string, number>();
+  for (const order of ordersResult.data ?? []) {
+    if (order.status === "cancelled" || order.status === "refunded") continue;
+    if (!order.video_id) continue;
+    const current = earningsByVideo.get(order.video_id) ?? 0;
+    earningsByVideo.set(order.video_id, +(current + Number(order.commission_earned)).toFixed(2));
+  }
+
+  return (videosResult.data ?? [])
+    .map((row) => ({ ...mapVideo(row), earnings: earningsByVideo.get(row.video_id) ?? 0 }))
+    .sort((a, b) => b.earnings - a.earnings);
 }
 
 export async function getDashboardStats(): Promise<DashboardStats> {
