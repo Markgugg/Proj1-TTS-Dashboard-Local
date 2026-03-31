@@ -4,7 +4,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { Logo } from "@/components/logo";
-import { getDashboardStats, getTopProducts, getVideoPerformance, getOrders } from "@/lib/data";
+import type { DashboardStats, Product, } from "@/types";
+
+export interface SidebarData {
+  stats: DashboardStats;
+  topProduct: Pick<Product, "name" | "totalOrders" | "totalEarnings"> | null;
+  topVideo: { title: string; views: number; earnings: number } | null;
+  todayOrders: number;
+  todayEarnings: number;
+}
 
 const navItems = [
   {
@@ -40,18 +48,9 @@ const navItems = [
   },
 ];
 
-export function Sidebar({ onClose }: { onClose?: () => void }) {
+export function Sidebar({ data, onClose }: { data: SidebarData; onClose?: () => void }) {
   const pathname = usePathname();
-  const stats = getDashboardStats();
-  const topProduct = getTopProducts(1)[0];
-  const topVideo = getVideoPerformance()[0];
-
-  // Today's orders
-  const todayStr = new Date().toISOString().split("T")[0];
-  const todayOrders = getOrders().filter(
-    (o) => o.orderDate.toISOString().split("T")[0] === todayStr && o.status !== "cancelled" && o.status !== "refunded"
-  );
-  const todayEarnings = todayOrders.reduce((s, o) => s + o.commissionEarned, 0);
+  const { stats, topProduct, topVideo, todayOrders, todayEarnings } = data;
 
   return (
     <aside className="flex h-full w-60 flex-col border-r border-gray-100 bg-white">
@@ -142,7 +141,7 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
           </div>
           <div className="flex items-center justify-between">
             <span className="text-xs text-indigo-500">Orders</span>
-            <span className="text-xs font-semibold text-indigo-700">{todayOrders.length}</span>
+            <span className="text-xs font-semibold text-indigo-700">{todayOrders}</span>
           </div>
         </div>
       </div>

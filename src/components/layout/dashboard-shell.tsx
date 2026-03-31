@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { Sidebar } from "./sidebar";
+import type { SidebarData } from "./sidebar";
 import { Header } from "./header";
 
-export function DashboardShell({ children }: { children: React.ReactNode }) {
+export function DashboardShell({ children, sidebarData }: { children: React.ReactNode; sidebarData: SidebarData }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -24,7 +25,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
           sidebarOpen ? "flex" : "hidden md:flex",
         ].join(" ")}
       >
-        <Sidebar onClose={() => setSidebarOpen(false)} />
+        <Sidebar data={sidebarData} onClose={() => setSidebarOpen(false)} />
       </div>
 
       <div className="flex flex-1 flex-col overflow-hidden">

@@ -29,11 +29,11 @@ function formatDate(d: Date) {
   return new Date(d).toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
-export default function DashboardPage() {
-  const stats = getDashboardStats();
-  const dailyEarnings = getDailyEarnings(30);
-  const topProducts = getTopProducts(3);
-  const recentOrders = getOrders().slice(0, 8);
+export default async function DashboardPage() {
+  const stats = await getDashboardStats();
+  const dailyEarnings = await getDailyEarnings(30);
+  const topProducts = await getTopProducts(3);
+  const recentOrders = (await getOrders()).slice(0, 8);
 
   return (
     <div className="flex flex-col gap-6">

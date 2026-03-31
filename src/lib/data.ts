@@ -1,32 +1,29 @@
 import type { Order, DailyEarnings, VideoPerformance, Product, DashboardStats, OrderFilters } from "@/types";
 import { config } from "./config";
 import * as mock from "./mock/handlers";
+import * as db from "./supabase/handlers";
 
-// Every data function checks the toggle.
-// When live API is implemented, add: import * as live from "./tiktok/client";
-
-export function getOrders(filters?: Partial<OrderFilters>): Order[] {
+export async function getOrders(filters?: Partial<OrderFilters>): Promise<Order[]> {
   if (config.useMockData) return mock.getOrders(filters);
-  // TODO: return live.getOrders(filters);
-  return mock.getOrders(filters);
+  return db.getOrders(filters);
 }
 
-export function getDailyEarnings(days?: number): DailyEarnings[] {
+export async function getDailyEarnings(days?: number): Promise<DailyEarnings[]> {
   if (config.useMockData) return mock.getDailyEarnings(days);
-  return mock.getDailyEarnings(days);
+  return db.getDailyEarnings(days);
 }
 
-export function getTopProducts(limit?: number): Product[] {
+export async function getTopProducts(limit?: number): Promise<Product[]> {
   if (config.useMockData) return mock.getTopProducts(limit);
-  return mock.getTopProducts(limit);
+  return db.getTopProducts(limit);
 }
 
-export function getVideoPerformance(): VideoPerformance[] {
+export async function getVideoPerformance(): Promise<VideoPerformance[]> {
   if (config.useMockData) return mock.getVideoPerformance();
-  return mock.getVideoPerformance();
+  return db.getVideoPerformance();
 }
 
-export function getDashboardStats(): DashboardStats {
+export async function getDashboardStats(): Promise<DashboardStats> {
   if (config.useMockData) return mock.getDashboardStats();
-  return mock.getDashboardStats();
+  return db.getDashboardStats();
 }
