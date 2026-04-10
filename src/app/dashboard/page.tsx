@@ -2,6 +2,7 @@ import { StatsRow } from "@/components/dashboard/stats-row";
 import { EarningsChart } from "@/components/dashboard/earnings-chart";
 import { TopProducts } from "@/components/dashboard/top-products";
 import { getDashboardStats, getDailyEarnings, getTopProducts, getOrders } from "@/lib/data";
+import * as mock from "@/lib/mock/handlers";
 
 const orderIconColors = [
   "bg-emerald-100 text-emerald-600",
@@ -30,10 +31,21 @@ function formatDate(d: Date) {
 }
 
 export default async function DashboardPage() {
-  const stats = await getDashboardStats();
-  const dailyEarnings = await getDailyEarnings(30);
-  const topProducts = await getTopProducts(3);
-  const recentOrders = (await getOrders()).slice(0, 8);
+  let stats, dailyEarnings, topProducts, recentOrders;
+  try {
+    [stats, dailyEarnings, topProducts, recentOrders] = await Promise.all([
+      getDashboardStats(),
+      getDailyEarnings(30),
+      getTopProducts(3),
+      getOrders().then((o) => o.slice(0, 8)),
+    ]);
+  } catch (e) {
+    console.error("DashboardPage data fetch failed, using mock:", e);
+    stats = mock.getDashboardStats();
+    dailyEarnings = mock.getDailyEarnings(30);
+    topProducts = mock.getTopProducts(3);
+    recentOrders = mock.getOrders().slice(0, 8);
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -58,7 +70,6 @@ export default async function DashboardPage() {
           {recentOrders.map((order, i) => (
             <div key={order.id} className="flex items-center justify-between px-6 py-3.5">
               <div className="flex items-center gap-4">
-                {/* Product icon */}
                 <div className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl ${orderIconColors[i % orderIconColors.length]}`}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" /><line x1="3" x2="21" y1="6" y2="6" /><path d="M16 10a4 4 0 0 1-8 0" />
