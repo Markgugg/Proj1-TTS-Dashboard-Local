@@ -8,7 +8,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "TTS Dashboard — TikTok Shop Analytics",
+  title: "CreatorTok — TikTok Shop Analytics",
   description: "Simple, clean analytics dashboard for TikTok Shop affiliates",
 };
 

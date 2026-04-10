@@ -43,11 +43,16 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="mb-8 flex flex-col items-center gap-3 text-center">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-black text-sm font-bold text-white">
-            T
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/creatortok-logo.svg"
+            alt="CreatorTok"
+            width={48}
+            height={48}
+            style={{ borderRadius: 10 }}
+          />
           <div>
-            <h1 className="text-xl font-bold text-gray-900">TTS Dashboard</h1>
+            <h1 className="text-xl font-bold text-gray-900">CreatorTok</h1>
             <p className="text-sm text-gray-500">TikTok Shop analytics</p>
           </div>
         </div>

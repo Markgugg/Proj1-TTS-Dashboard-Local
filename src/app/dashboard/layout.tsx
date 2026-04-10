@@ -2,6 +2,8 @@ import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { getDashboardStats, getTopProducts, getVideoPerformance, getOrders } from "@/lib/data";
 import type { SidebarData } from "@/components/layout/sidebar";
 
+export const dynamic = "force-dynamic";
+
 export default async function DashboardLayout({
   children,
 }: {

@@ -261,7 +261,7 @@ export function LandingPage() {
       {/* Features */}
       <section id="features" className="mx-auto max-w-6xl px-6 pb-24 pt-24 md:px-10">
         <h2 className="mb-12 text-center text-3xl font-bold text-gray-900 md:text-4xl">
-          What does TTS Dashboard include?
+          What does CreatorTok include?
         </h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {[
@@ -339,7 +339,7 @@ export function LandingPage() {
 
       {/* Footer */}
       <footer className="border-t border-gray-100 py-8 text-center text-xs text-gray-400">
-        © {new Date().getFullYear()} TTS Dashboard · Built for TikTok Shop affiliates
+        © {new Date().getFullYear()} CreatorTok · Built for TikTok Shop affiliates
       </footer>
     </div>
   );
