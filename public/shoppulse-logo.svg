@@ -1,0 +1,20 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="512" height="512" rx="96" fill="#0F0F0F"/>
+
+  <!-- Pulse/waveform line -->
+  <polyline
+    points="60,256 120,256 150,180 180,320 210,200 240,290 270,256 320,256 350,160 380,340 410,256 460,256"
+    fill="none"
+    stroke="#FE2C55"
+    stroke-width="22"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+
+  <!-- Shop bag icon - top right accent -->
+  <g transform="translate(370, 60)">
+    <rect x="0" y="22" width="60" height="52" rx="10" fill="none" stroke="#ffffff" stroke-width="7"/>
+    <path d="M12 22 C12 8 48 8 48 22" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round"/>
+  </g>
+</svg>

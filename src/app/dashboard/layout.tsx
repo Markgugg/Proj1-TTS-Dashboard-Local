@@ -1,5 +1,6 @@
 import { DashboardShell } from "@/components/layout/dashboard-shell";
 import { getDashboardStats, getTopProducts, getVideoPerformance, getOrders } from "@/lib/data";
+import * as mock from "@/lib/mock/handlers";
 import type { SidebarData } from "@/components/layout/sidebar";
 
 export const dynamic = "force-dynamic";
@@ -9,12 +10,21 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [stats, products, videos, orders] = await Promise.all([
-    getDashboardStats(),
-    getTopProducts(1),
-    getVideoPerformance(),
-    getOrders(),
-  ]);
+  let stats, products, videos, orders;
+  try {
+    [stats, products, videos, orders] = await Promise.all([
+      getDashboardStats(),
+      getTopProducts(1),
+      getVideoPerformance(),
+      getOrders(),
+    ]);
+  } catch (e) {
+    console.error("Dashboard data fetch failed, falling back to mock:", e);
+    stats = mock.getDashboardStats();
+    products = mock.getTopProducts(1);
+    videos = mock.getVideoPerformance();
+    orders = mock.getOrders();
+  }
 
   const todayStr = new Date().toISOString().split("T")[0];
   const todayFiltered = orders.filter(
